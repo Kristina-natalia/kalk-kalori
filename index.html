@@ -114,6 +114,16 @@
             margin-top: 1rem;
         }
 
+        #menu-selector {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        #menu-select {
+            padding: 0.5rem;
+            font-size: 16px;
+        }
+
         #calculate-button {
             background-color: #28a745;
             color: #fff;
@@ -146,9 +156,6 @@
     </header>
 </head>
 <body>
-    <header>
-        <h1>Kalkulator Kalori</h1>
-    </header>
     <main>
         <section id="food-selection">
             <h2>Pilih Makanan dan Minuman</h2>
@@ -202,13 +209,37 @@
                 <!-- Item makanan yang dipilih akan muncul di sini -->
             </div>
             <div id="total-calories">Total Kalori: 0 kalori</div>
-            <div id="daily-calories">Kebutuhan Kalori Harian: 2000 kalori</div>
-            <div id="calories-status">Status Kalori: Belum Terpenuhi</div>
-            <button id="calculate-button" onclick="calculateTotalCalories()">Hitung Total Kalori</button>
+            <div id="menu-selector">
+                <label for="menu-select">Pilih menu:</label>
+                <select id="menu-select">
+                    <option value="total">Total Kalori</option>
+                    <option value="nasi_goreng">Nasi Goreng</option>
+                    <option value="air_putih">Air Putih</option>
+                    <option value="salad">Salad</option>
+                    <option value="sushi">Sushi</option>
+                    <option value="kentang">Kentang</option>
+                    <option value="pizza">Pizza</option>
+                    <option value="ayam_goreng">Ayam Goreng</option>
+                    <option value="burger">Burger</option>
+                </select>
+                <button id="calculate-button" onclick="calculateCalories()">Hitung</button>
+            </div>
             <button id="reset-button" onclick="resetMeal()">Reset</button>
         </section>
     </main>
     <script>
+        // Objek untuk menyimpan kalori masing-masing makanan
+        const caloriesData = {
+            nasi_goreng: 300,
+            air_putih: 0,
+            salad: 100,
+            sushi: 200,
+            kentang: 150,
+            pizza: 250,
+            ayam_goreng: 400,
+            burger: 350
+        };
+
         // Fungsi untuk menambahkan makanan ke daftar makanan yang dipilih
         function addToMeal(foodName, calories) {
             // Buat elemen baru untuk makanan yang dipilih
@@ -230,7 +261,7 @@
             removeButton.textContent = 'Hapus';
             removeButton.onclick = function () {
                 mealItem.remove();
-                calculateTotalCalories();
+                calculateCalories();
             };
             mealItem.appendChild(removeButton);
 
@@ -238,18 +269,25 @@
             document.getElementById('meal-items').appendChild(mealItem);
 
             // Hitung total kalori
-            calculateTotalCalories();
+            calculateCalories();
         }
 
         // Fungsi untuk menghitung total kalori dari makanan yang dipilih
-        function calculateTotalCalories() {
+        function calculateCalories() {
+            const menuSelect = document.getElementById('menu-select');
+            const selectedMenu = menuSelect.value;
+
             const mealItems = document.getElementsByClassName('meal-item');
             let totalCalories = 0;
 
-            for (const mealItem of mealItems) {
-                const caloriesText = mealItem.querySelector('span').textContent;
-                const calories = parseInt(caloriesText.split(' ')[2]);
-                totalCalories += calories;
+            if (selectedMenu === 'total') {
+                for (const mealItem of mealItems) {
+                    const caloriesText = mealItem.querySelector('span').textContent;
+                    const calories = parseInt(caloriesText.split(' ')[2]);
+                    totalCalories += calories;
+                }
+            } else {
+                totalCalories = caloriesData[selectedMenu];
             }
 
             // Tampilkan total kalori
@@ -273,7 +311,7 @@
             while (mealItems.length > 0) {
                 mealItems[0].remove();
             }
-            calculateTotalCalories();
+            calculateCalories();
         }
     </script>
 </body>
