@@ -3,6 +3,7 @@
     <MenuMakanan @tambah-makanan="tambahkanMakanan" />
     <DaftarMakanan :pilihanMakanan="pilihanMakanan" @hapus-makanan="hapusMakanan" />
     <HitungKalori :pilihanMakanan="pilihanMakanan" :kebutuhanKalori="kebutuhanKalori" />
+    <router-link to="/menu-eksternal">Menu Eksternal</router-link>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import MenuMakanan from '@/components/MenuMakanan.vue';
 import DaftarMakanan from '@/components/DaftarMakanan.vue';
 import HitungKalori from '@/components/HitungKalori.vue';
+  
 
 export default {
   name: 'Home',
