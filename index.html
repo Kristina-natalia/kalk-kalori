@@ -289,7 +289,7 @@
                     totalCalories += calories;
                 }
             } else {
-                totalCalories = caloriesData[selectedMenu];
+                totalCalories = caloriesData[selectedMenu] || 0;
             }
 
             // Tampilkan total kalori
