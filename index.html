@@ -124,11 +124,7 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
-        #calculate-button:hover {
-            background-color: #218838;
-        }
-    </style>
+         </style>
 </head>
 <body>
     <header>
@@ -144,26 +140,7 @@
                     <button onclick="addToMeal('Nasi Goreng', 300)">Tambah</button>
                 </div>
                 <!-- Tambahkan menu makanan lainnya -->
-                <div class="food-item">
-                    <img src="air_putih.jpeg" alt="Air Putih">
-                    <span>Air Putih - 0 kalori</span>
-                    <button onclick="addToMeal('Air Putih', 0)">Tambah</button>
-                </div>
-                <div class="food-item">
-                    <img src="salad.jpg" alt="Salad">
-                    <span>Salad - 100 kalori</span>
-                    <button onclick="addToMeal('Salad', 100)">Tambah</button>
-                </div>
-                <div class="food-item">
-                    <img src="sushi.jpg" alt="Sushi">
-                    <span>Sushi - 200 kalori</span>
-                    <button onclick="addToMeal('Sushi', 200)">Tambah</button>
-                </div>
-                <div class="food-item">
-                    <img src="kentang.jpg" alt="Kentang">
-                    <span>Kentang - 150 kalori</span>
-                    <button onclick="addToMeal('Kentang', 150)">Tambah</button>
-                </div>
+                <!-- ... -->
             </div>
         </section>
         <section id="meal">
@@ -178,55 +155,69 @@
         </section>
     </main>
     <script>
+        let selectedFoods = [];
+
         // Fungsi untuk menambahkan makanan ke daftar makanan yang dipilih
         function addToMeal(foodName, calories) {
-            // Buat elemen baru untuk makanan yang dipilih
-            const mealItem = document.createElement('div');
-            mealItem.classList.add('meal-item');
+            selectedFoods.push({ name: foodName, calories: calories });
 
-            // Tambahkan gambar makanan
-            const foodImage = document.createElement('img');
-            foodImage.src = `${foodName.toLowerCase().replace(' ', '_')}.jpg`;
-            foodImage.alt = foodName;
-            mealItem.appendChild(foodImage);
-
-            // Tambahkan nama makanan dan kalori
-            const foodInfo = document.createElement('span');
-            foodInfo.textContent = `${foodName} - ${calories} kalori`;
-            mealItem.appendChild(foodInfo);
-
-            // Tambahkan tombol hapus
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'Hapus';
-            removeButton.onclick = function () {
-                mealItem.remove();
-                calculateTotalCalories();
-            };
-            mealItem.appendChild(removeButton);
-
-            // Tambahkan makanan ke daftar makanan yang dipilih
-            document.getElementById('meal-items').appendChild(mealItem);
-
-            // Tambahkan total kalori ke setiap item makanan yang dipilih
-            const totalCaloriesElement = document.getElementById('total-calories');
-            const currentTotalCalories = parseInt(totalCaloriesElement.textContent.split(' ')[2]) || 0;
-            const newTotalCalories = currentTotalCalories + calories;
-            totalCaloriesElement.textContent = `Total Kalori: ${newTotalCalories} kalori`;
+            // Update daftar makanan yang dipilih
+            updateMealItems();
 
             // Hitung total kalori
             calculateTotalCalories();
         }
 
+        // Fungsi untuk menghapus makanan dari daftar makanan yang dipilih
+        function removeFromMeal(index) {
+            selectedFoods.splice(index, 1);
+
+            // Update daftar makanan yang dipilih
+            updateMealItems();
+
+            // Hitung total kalori
+            calculateTotalCalories();
+        }
+
+        // Fungsi untuk memperbarui tampilan daftar makanan yang dipilih
+        function updateMealItems() {
+            const mealItemsContainer = document.getElementById('meal-items');
+            mealItemsContainer.innerHTML = '';
+
+            selectedFoods.forEach((food, index) => {
+                const mealItem = document.createElement('div');
+                mealItem.classList.add('meal-item');
+
+                // Tambahkan gambar makanan
+                const foodImage = document.createElement('img');
+                foodImage.src = `${food.name.toLowerCase().replace(' ', '_')}.jpg`;
+                foodImage.alt = food.name;
+                mealItem.appendChild(foodImage);
+
+                // Tambahkan nama makanan dan kalori
+                const foodInfo = document.createElement('span');
+                foodInfo.textContent = `${food.name} - ${food.calories} kalori`;
+                mealItem.appendChild(foodInfo);
+
+                // Tambahkan tombol hapus
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Hapus';
+                removeButton.onclick = function () {
+                    removeFromMeal(index);
+                };
+                mealItem.appendChild(removeButton);
+
+                mealItemsContainer.appendChild(mealItem);
+            });
+        }
+
         // Fungsi untuk menghitung total kalori dari makanan yang dipilih
         function calculateTotalCalories() {
-            const mealItems = document.getElementsByClassName('meal-item');
             let totalCalories = 0;
 
-            for (const mealItem of mealItems) {
-                const caloriesText = mealItem.querySelector('span').textContent;
-                const calories = parseInt(caloriesText.split(' ')[2]);
-                totalCalories += calories;
-            }
+            selectedFoods.forEach((food) => {
+                totalCalories += food.calories;
+            });
 
             // Tampilkan total kalori
             document.getElementById('total-calories').textContent = `Total Kalori: ${totalCalories} kalori`;
