@@ -120,6 +120,19 @@
             font-weight: bold;
             margin-top: 1rem;
         }
+
+        #calculate-button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #calculate-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -166,6 +179,7 @@
             <div id="total-calories">Total Kalori: 0 kalori</div>
             <div id="daily-calories">Kebutuhan Kalori Harian: 2000 kalori</div>
             <div id="calories-status">Status Kalori: Belum Terpenuhi</div>
+            <button id="calculate-button" onclick="calculateTotalCalories()">Hitung Total Kalori</button>
         </section>
     </main>
     <script>
