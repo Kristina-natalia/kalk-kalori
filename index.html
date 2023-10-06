@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Kalori</title>
     <style>
-        /* CSS styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -37,11 +36,10 @@
             color: #333;
         }
 
-        #menu {
+        #menu-container {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-top: 1rem;
         }
 
         .food-item {
@@ -123,30 +121,41 @@
             padding: 0.5rem 1rem;
             border-radius: 4px;
             cursor: pointer;
+        }
 
-        #menu-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+        #calculate-button:hover {
+            background-color: #218838;
         }
+
+        #reset-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
         }
-         </style>
+
+        #reset-button:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Kalkulator Kalori</h1>
     </header>
-<main>
+    <main>
         <section id="food-selection">
             <h2>Pilih Makanan dan Minuman</h2>
             <div id="menu-container">
-                <!-- Menu makanan -->
                 <div class="food-item">
                     <img src="nasi_goreng.jpg" alt="Nasi Goreng">
                     <span>Nasi Goreng - 300 kalori</span>
                     <button onclick="addToMeal('Nasi Goreng', 300)">Tambah</button>
                 </div>
-                               <div class="food-item">
+                <!-- Tambahkan menu makanan lainnya di sini -->
+                <div class="food-item">
                     <img src="air_putih.jpeg" alt="Air Putih">
                     <span>Air Putih - 0 kalori</span>
                     <button onclick="addToMeal('Air Putih', 0)">Tambah</button>
@@ -166,9 +175,23 @@
                     <span>Kentang - 150 kalori</span>
                     <button onclick="addToMeal('Kentang', 150)">Tambah</button>
                 </div>
-                <!-- Tambahkan menu makanan lainnya -->
+                <div class="food-item">
+                    <img src="pizza.jpg" alt="Pizza">
+                    <span>Pizza - 250 kalori</span>
+                    <button onclick="addToMeal('Pizza', 250)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="ayam_goreng.jpg" alt="Ayam Goreng">
+                    <span>Ayam Goreng - 400 kalori</span>
+                    <button onclick="addToMeal('Ayam Goreng', 400)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="burger.jpg" alt="Burger">
+                    <span>Burger - 350 kalori</span>
+                    <button onclick="addToMeal('Burger', 350)">Tambah</button>
+                </div>
             </div>
-        </section
+        </section>
         <section id="meal">
             <h2>Makanan yang Dipilih</h2>
             <div id="meal-items">
@@ -178,6 +201,7 @@
             <div id="daily-calories">Kebutuhan Kalori Harian: 2000 kalori</div>
             <div id="calories-status">Status Kalori: Belum Terpenuhi</div>
             <button id="calculate-button" onclick="calculateTotalCalories()">Hitung Total Kalori</button>
+            <button id="reset-button" onclick="resetMeal()">Reset</button>
         </section>
     </main>
     <script>
@@ -238,6 +262,15 @@
                 caloriesStatus.textContent = 'Status Kalori: Belum Terpenuhi';
                 caloriesStatus.style.color = 'red';
             }
+        }
+
+        // Fungsi untuk mereset daftar makanan yang dipilih
+        function resetMeal() {
+            const mealItems = document.getElementsByClassName('meal-item');
+            while (mealItems.length > 0) {
+                mealItems[0].remove();
+            }
+            calculateTotalCalories();
         }
     </script>
 </body>
