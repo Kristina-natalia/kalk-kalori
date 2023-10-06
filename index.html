@@ -1,10 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <header>
+    <h1>Kalkulator Kalori</h1>
+    <a href="https://kristina-natalia.github.io/bio2/">Kembali ke Portofolio</a>
+</header>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Kalori</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        #menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .food-item {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+
+        .food-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #meal {
+            margin-top: 2rem;
+        }
+
+        #meal h2 {
+            margin-bottom: 1rem;
+        }
+
+        #meal-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .meal-item {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+
+        .meal-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        #total-calories {
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -25,66 +130,78 @@
                     <span>Air Putih - 0 kalori</span>
                     <button onclick="addToMeal('Air Putih', 0)">Tambah</button>
                 </div>
+                <div class="food-item">
+                    <img src="salad.jpg" alt="Salad">
+                    <span>Salad - 100 kalori</span>
+                    <button onclick="addToMeal('Salad', 100)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="sushi.jpg" alt="Sushi">
+                    <span>Sushi - 200 kalori</span>
+                    <button onclick="addToMeal('Sushi', 200)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="kentang.jpg" alt="Kentang">
+                    <span>Kentang - 150 kalori</span>
+                    <button onclick="addToMeal('Kentang', 150)">Tambah</button>
+                </div>
             </div>
         </section>
-        <section id="meal-list">
-            <h2>Daftar Makanan yang Dipilih</h2>
-            <ul id="selected-meal"></ul>
-        </section>
-        <section id="total-calories">
-            <h2>Total Kalori</h2>
-            <p id="total-calories-count">0 kalori</p>
-        </section>
-        <section id="calorie-goal">
-            <h2>Target Kalori Harian</h2>
-            <input type="number" id="calorie-goal-input" placeholder="Masukkan target kalori">
-            <button onclick="checkCalorieGoal()">Cek</button>
-            <p id="calorie-goal-result"></p>
+        <section id="meal">
+            <h2>Makanan yang Dipilih</h2>
+            <div id="meal-items">
+                <!-- Item makanan yang dipilih akan muncul di sini -->
+            </div>
+            <div id="total-calories">Total Kalori: 0 kalori</div>
         </section>
     </main>
     <script>
-        let selectedFoods = [];
-        let totalCalories = 0;
-
+        // Fungsi untuk menambahkan makanan ke daftar makanan yang dipilih
         function addToMeal(foodName, calories) {
-            selectedFoods.push({ name: foodName, calories: calories });
-            updateSelectedMealList();
+            // Buat elemen baru untuk makanan yang dipilih
+            const mealItem = document.createElement('div');
+            mealItem.classList.add('meal-item');
+
+            // Tambahkan gambar makanan
+            const foodImage = document.createElement('img');
+            foodImage.src = `${foodName.toLowerCase().replace(' ', '_')}.jpg`;
+            foodImage.alt = foodName;
+            mealItem.appendChild(foodImage);
+
+            // Tambahkan nama makanan dan kalori
+            const foodInfo = document.createElement('span');
+            foodInfo.textContent = `${foodName} - ${calories} kalori`;
+            mealItem.appendChild(foodInfo);
+
+            // Tambahkan tombol hapus
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Hapus';
+            removeButton.onclick = function () {
+                mealItem.remove();
+                calculateTotalCalories();
+            };
+            mealItem.appendChild(removeButton);
+
+            // Tambahkan makanan ke daftar makanan yang dipilih
+            document.getElementById('meal-items').appendChild(mealItem);
+
+            // Hitung total kalori
             calculateTotalCalories();
         }
 
-        function updateSelectedMealList() {
-            const selectedMealList = document.getElementById("selected-meal");
-            selectedMealList.innerHTML = "";
-            selectedFoods.forEach((food) => {
-                const listItem = document.createElement("li");
-                listItem.textContent = `${food.name} - ${food.calories} kalori`;
-                selectedMealList.appendChild(listItem);
-            });
-        }
-
+        // Fungsi untuk menghitung total kalori dari makanan yang dipilih
         function calculateTotalCalories() {
-            totalCalories = selectedFoods.reduce((total, food) => total + food.calories, 0);
-            const totalCaloriesCount = document.getElementById("total-calories-count");
-            totalCaloriesCount.textContent = `${totalCalories} kalori`;
-        }
+            const mealItems = document.getElementsByClassName('meal-item');
+            let totalCalories = 0;
 
-        function checkCalorieGoal() {
-            const calorieGoalInput = document.getElementById("calorie-goal-input");
-            const calorieGoalResult = document.getElementById("calorie-goal-result");
-            const calorieGoal = parseFloat(calorieGoalInput.value);
-            if (isNaN(calorieGoal)) {
-                calorieGoalResult.textContent = "Masukkan target kalori yang valid.";
-                return;
+            for (const mealItem of mealItems) {
+                const caloriesText = mealItem.querySelector('span').textContent;
+                const calories = parseInt(caloriesText.split(' ')[2]);
+                totalCalories += calories;
             }
-            if (totalCalories === 0) {
-                calorieGoalResult.textContent = "Belum ada makanan yang dipilih.";
-                return;
-            }
-            if (totalCalories >= calorieGoal) {
-                calorieGoalResult.textContent = "Selamat! Anda mencapai target kalori harian.";
-            } else {
-                calorieGoalResult.textContent = "Anda belum mencapai target kalori harian.";
-            }
+
+            // Tampilkan total kalori
+            document.getElementById('total-calories').textContent = `Total Kalori: ${totalCalories} kalori`;
         }
     </script>
 </body>
