@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <header>
-        <h1>Kalkulator Kalori</h1>
-        <a href="https://kristina-natalia.github.io/bio2/">Kembali ke Portofolio</a>
-    </header>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Kalori</title>
@@ -211,6 +206,12 @@
 
             // Tambahkan makanan ke daftar makanan yang dipilih
             document.getElementById('meal-items').appendChild(mealItem);
+
+            // Tambahkan total kalori ke setiap item makanan yang dipilih
+            const totalCaloriesElement = document.getElementById('total-calories');
+            const currentTotalCalories = parseInt(totalCaloriesElement.textContent.split(' ')[2]) || 0;
+            const newTotalCalories = currentTotalCalories + calories;
+            totalCaloriesElement.textContent = `Total Kalori: ${newTotalCalories} kalori`;
 
             // Hitung total kalori
             calculateTotalCalories();
