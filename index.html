@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <header>
+        <h1>Kalkulator Kalori</h1>
+    </header>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Kalori</title>
@@ -106,9 +109,14 @@
             margin-top: 1rem;
         }
 
-        #calorie-goal {
-            margin-top: 1rem;
+        #daily-calories {
             font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        #calories-status {
+            font-weight: bold;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -120,7 +128,32 @@
         <section id="food-selection">
             <h2>Pilih Makanan dan Minuman</h2>
             <div id="menu">
-                <!-- Menu makanan dan minuman di sini -->
+                <div class="food-item">
+                    <img src="nasi_goreng.jpg" alt="Nasi Goreng">
+                    <span>Nasi Goreng - 300 kalori</span>
+                    <button onclick="addToMeal('Nasi Goreng', 300)">Tambah</button>
+                </div>
+                <!-- Tambahkan menu makanan lainnya -->
+                <div class="food-item">
+                    <img src="air_putih.jpeg" alt="Air Putih">
+                    <span>Air Putih - 0 kalori</span>
+                    <button onclick="addToMeal('Air Putih', 0)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="salad.jpg" alt="Salad">
+                    <span>Salad - 100 kalori</span>
+                    <button onclick="addToMeal('Salad', 100)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="sushi.jpg" alt="Sushi">
+                    <span>Sushi - 200 kalori</span>
+                    <button onclick="addToMeal('Sushi', 200)">Tambah</button>
+                </div>
+                <div class="food-item">
+                    <img src="kentang.jpg" alt="Kentang">
+                    <span>Kentang - 150 kalori</span>
+                    <button onclick="addToMeal('Kentang', 150)">Tambah</button>
+                </div>
             </div>
         </section>
         <section id="meal">
@@ -129,7 +162,8 @@
                 <!-- Item makanan yang dipilih akan muncul di sini -->
             </div>
             <div id="total-calories">Total Kalori: 0 kalori</div>
-            <div id="calorie-goal">Target Kalori Harian: 2000 kalori</div>
+            <div id="daily-calories">Kebutuhan Kalori Harian: 2000 kalori</div>
+            <div id="calories-status">Status Kalori: Belum Terpenuhi</div>
         </section>
     </main>
     <script>
@@ -180,15 +214,15 @@
             // Tampilkan total kalori
             document.getElementById('total-calories').textContent = `Total Kalori: ${totalCalories} kalori`;
 
-            // Cek apakah target kalori harian tercapai
-            const calorieGoal = 2000; // Ganti dengan target kalori harian Anda
-            const calorieGoalElement = document.getElementById('calorie-goal');
-            if (totalCalories >= calorieGoal) {
-                calorieGoalElement.textContent = `Target Kalori Harian Terpenuhi! (${totalCalories}/${calorieGoal} kalori)`;
-                calorieGoalElement.style.color = 'green';
+            // Tentukan status kalori
+            const dailyCalories = 2000; // Gantilah dengan kebutuhan kalori harian Anda
+            const caloriesStatus = document.getElementById('calories-status');
+            if (totalCalories >= dailyCalories) {
+                caloriesStatus.textContent = 'Status Kalori: Terpenuhi';
+                caloriesStatus.style.color = 'green';
             } else {
-                calorieGoalElement.textContent = `Belum Mencapai Target Kalori Harian (${totalCalories}/${calorieGoal} kalori)`;
-                calorieGoalElement.style.color = 'red';
+                caloriesStatus.textContent = 'Status Kalori: Belum Terpenuhi';
+                caloriesStatus.style.color = 'red';
             }
         }
     </script>
